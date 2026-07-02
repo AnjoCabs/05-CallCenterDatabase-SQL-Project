@@ -1,10 +1,12 @@
--- DISCLAIMER:
--- This query is intended solely for study and practice purposes. It is not reflective of the operations,
--- data, or practices of any actual call center company. The data, structure, and results presented herein 
--- are hypothetical and have been generated for educational purposes only. No real-world companies, organizations,
--- or individuals are associated with this query or its content.
+/*
+DISCLAIMER:
+This query is intended solely for study and practice purposes. It is not reflective of the operations,
+data, or practices of any actual call center company. The data, structure, and results presented herein 
+are hypothetical and have been generated for educational purposes only. No real-world companies, organizations,
+or individuals are associated with this query or its content.
 
--- DATA SOURCE ( https://www.youtube.com/watch?v=NQfjasDctpM&list=PLwIcJx1aSL1SSbMSGRYCSKzcHTME-xQVq )
+DATA SOURCE ( https://www.youtube.com/watch?v=NQfjasDctpM&list=PLwIcJx1aSL1SSbMSGRYCSKzcHTME-xQVq )
+*/
 
 CREATE TABLE callcenterdataset
 (
@@ -26,21 +28,14 @@ CREATE TABLE callcenterdataset
 	Repeat_Customer VARCHAR(50),
 	Reason_Call_Abandoned VARCHAR(50));
 
-SET GLOBAL local_infile = 1;
-
-LOAD DATA LOCAL INFILE 'C:/Users/billy/Desktop/DataSets/SalesMarketingCallCenterSQL/SalesMarketingCallCenter.csv'
-INTO TABLE callcenterdataset
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-IGNORE 1 LINES;
-
-
 -- 1. How many total calls got?
+
 SELECT
 	COUNT(call_ID) AS total_calls
 FROM callcenterdataset;
 
 -- 2. Count of Calls  base on the call_outcome
+
 SELECT
     Call_Outcome,
     COUNT(*) AS call_count
@@ -49,6 +44,7 @@ GROUP BY Call_Outcome
 ORDER BY call_count DESC;
 
 -- 3. Number of call base on gender
+
 SELECT
     Customer_Gender,
     COUNT(*) AS call_count,
@@ -58,6 +54,7 @@ GROUP BY Customer_Gender
 ORDER BY call_count DESC;
 
 -- 4. Number of call base on agent
+
 SELECT
 	CONCAT( Agent_First_Name, ' ', Agent_Last_Name) AS full_name,
     COUNT(*) AS call_count
@@ -66,6 +63,7 @@ GROUP BY full_name
 ORDER BY call_count DESC;
 
 -- 5. Agent with the highest number of abandoned calls
+
 SELECT
     CONCAT(Agent_First_Name, ' ', Agent_Last_Name) AS agent_full_name,
     COUNT(*) AS abandoned_call_count
@@ -76,6 +74,7 @@ ORDER BY abandoned_call_count DESC
 LIMIT 1;
 
 -- 6. Percentage of abandoned calls by agent based on their total calls
+
 SELECT
     CONCAT(Agent_First_Name, ' ', Agent_Last_Name) AS agent_full_name,
     COUNT(CASE WHEN 
@@ -91,6 +90,7 @@ GROUP BY agent_full_name
 ORDER BY abandoned_call_percentage DESC;
 
 -- 7. Agent with the highest number of successful calls
+
 SELECT
     CONCAT(Agent_First_Name, ' ', Agent_Last_Name) AS agent_full_name,
     COUNT(CASE WHEN 
@@ -104,6 +104,7 @@ GROUP BY agent_full_name
 ORDER BY success_calls DESC;
 
 -- 8. Agent with the highest total call time
+
 SELECT
     CONCAT(Agent_First_Name, ' ', Agent_Last_Name) AS agent_full_name,
     COUNT(*) AS total_calls,
@@ -114,6 +115,7 @@ GROUP BY agent_full_name
 ORDER BY total_call_time DESC;
 
 -- 9. Most common reasons why calls were abandoned
+
 SELECT
     Reason_Call_Abandoned AS reason,
     COUNT(*) AS total_abandoned
@@ -123,6 +125,7 @@ GROUP BY reason
 ORDER BY total_abandoned DESC;
 
 -- 10. What time of the day has the highest number of calls
+
 SELECT
     Time_of_Day,
     COUNT(*) AS call_count
@@ -131,6 +134,7 @@ GROUP BY Time_of_Day
 ORDER BY call_count DESC;
 
 -- 11. Which state has the highest number of Abandoned and Success calls
+
 SELECT
 	state,
     COUNT(CASE WHEN 
@@ -146,6 +150,7 @@ ORDER BY
     abandoned_call DESC;
 
 -- 12. What is the most commonly discussed product in successful calls
+
 SELECT
     Product_Discussed,
     COUNT(CASE WHEN Call_Outcome = 'Success' THEN 1 END) AS Success_Count,
@@ -156,6 +161,7 @@ GROUP BY Product_Discussed
 ORDER BY Success_Rate_Percent DESC;
 
 -- 13. Total number of repeat customers
+
 SELECT
     COUNT(*) AS repeat_customers,
     (COUNT(*) * 100.0 / (SELECT COUNT(*) FROM callcenterdataset)) AS repeat_percentage
@@ -163,6 +169,7 @@ FROM callcenterdataset
 WHERE Repeat_Customer = 'Yes';
 
 -- 14. What is the most common product discussed by repeat customers
+
 SELECT
     Product_Discussed,
     COUNT(*) AS repeat_customer_count
@@ -172,6 +179,7 @@ GROUP BY Product_Discussed
 ORDER BY repeat_customer_count DESC;
 
 -- 15. What day has the most calls
+
 SELECT
     DAYNAME(date) AS day_of_week,
     COUNT(*) AS call_count
@@ -180,10 +188,12 @@ GROUP BY day_of_week
 ORDER BY call_count DESC;
 
 
--- DISCLAIMER:
--- This query is intended solely for study and practice purposes. It is not reflective of the operations,
--- data, or practices of any actual call center company. The data, structure, and results presented herein 
--- are hypothetical and have been generated for educational purposes only. No real-world companies, organizations,
--- or individuals are associated with this query or its content.
+/*
+DISCLAIMER:
+This query is intended solely for study and practice purposes. It is not reflective of the operations,
+data, or practices of any actual call center company. The data, structure, and results presented herein 
+are hypothetical and have been generated for educational purposes only. No real-world companies, organizations,
+or individuals are associated with this query or its content.
 
--- DATA SOURCE ( https://www.youtube.com/watch?v=NQfjasDctpM&list=PLwIcJx1aSL1SSbMSGRYCSKzcHTME-xQVq )
+DATA SOURCE ( https://www.youtube.com/watch?v=NQfjasDctpM&list=PLwIcJx1aSL1SSbMSGRYCSKzcHTME-xQVq )
+*/
